@@ -10,7 +10,6 @@ public class LatLng2Poi extends Wrapper{
 			String url = flip_url + "/nearby_map_data?point=";
 			url += lat + "," + lng + "&max_dist=0.05";
 			//no need to encode this url as no special chars possible
-			
 			//call flip api for nearby_map_data
 			JSONObject poi_result_obj = getApiResult(url, 0);
 			Thread.sleep(500);
@@ -27,6 +26,7 @@ public class LatLng2Poi extends Wrapper{
 			try{
 				poi_points = (JSONArray) poi_result_data.get("Poi_point");
 			} catch (Exception e){
+				
 			}
 			return poi_points;
 		} catch (Exception e){

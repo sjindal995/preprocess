@@ -11,12 +11,12 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class PoiToAcc extends AccDetailsFromLatLng{
+public class PoiToAcc extends AccDetailsFromLL{
 	
 	public static void main(String[] args){
 		
 		// store the details for each account in file as well as for each poi in map
-		createPoi2Acc("addr_acc_details");
+		createPoi2Acc("acc_details");
 		
 		File d_file = new File(comp(poi_file));
 		d_file.delete();
