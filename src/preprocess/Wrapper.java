@@ -66,15 +66,29 @@ public class Wrapper{
 		        }
 		        
 		        json_result = new JSONObject(result);
-	        } catch (SocketException e){
+
+		        // if buffered reader is opened succesfully, close it
+		        if(reader != null){
+		        	reader.close();
+		        }
+		        // if connection created succesfully, close it
+		        if(conn != null){
+		        	conn.disconnect();
+		        }
+
+	        } catch (SocketException | SocketTimeoutException e){
 	        	e.printStackTrace();
+		        // if buffered reader is opened succesfully, close it
+		        if(reader != null){
+		        	reader.close();
+		        }
+		        // if connection created succesfully, close it
+		        if(conn != null){
+		        	conn.disconnect();
+		        }
+
 	        	if(it < 5){
-	        		json_result = getApiResult(url, it++);
-	        		System.out.println(json_result);
-	        	}
-	        } catch (SocketTimeoutException e){
-	        	e.printStackTrace();
-	        	if(it < 5){
+	        		Thread.sleep(500);
 	        		json_result = getApiResult(url, it++);
 	        		System.out.println(json_result);
 	        	}
@@ -82,14 +96,6 @@ public class Wrapper{
 	        	e.printStackTrace();
 	        }
 	        
-	        // if buffered reader is opened succesfully, close it
-	        if(reader != null){
-	        	reader.close();
-	        }
-	        // if connection created succesfully, close it
-	        if(conn != null){
-	        	conn.disconnect();
-	        }
 	        return json_result;
 		}
 		catch( Exception e){

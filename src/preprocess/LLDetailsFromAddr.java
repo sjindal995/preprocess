@@ -21,7 +21,7 @@ public class LLDetailsFromAddr extends LatLng2Poi{
 			BufferedReader br = new BufferedReader(new FileReader(addr_in_file));
 			String orderId, accId, addr1, pincode, state, city, addr2;
 	    	List<String> items;
-	    	for(String line; ((line = br.readLine()) != null) && (it < 1000); ) {
+	    	for(String line; ((line = br.readLine()) != null) && (it < 1001); ) {
 	    		total_addr++;
 	    		// split the line to list of strings
 		    	items = Arrays.asList(line.split("\\s*\\|\\s*"));
