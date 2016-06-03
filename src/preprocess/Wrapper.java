@@ -23,9 +23,10 @@ public class Wrapper{
 	
 
 	// latest updated output file for details of each account
-	public static String addr_out_file = "addr_ll_details";
+	public static String addr_ll_file = "addr_ll_details";
 	
-	public static String final_out_file = "acc_details";
+	public static String addr_out_file = "addr_details";
+	public static String ping_file = "ping_details";
 	
 	public static String filtered_file = "filtered_file";
 	
@@ -76,9 +77,9 @@ public class Wrapper{
 		        	conn.disconnect();
 		        }
 
-	        } catch (SocketException | SocketTimeoutException e){
+	        } catch (SocketException | SocketTimeoutException | UnknownHostException e){
 	        	e.printStackTrace();
-		        // if buffered reader is opened succesfully, close it
+	        	// if buffered reader is opened succesfully, close it
 		        if(reader != null){
 		        	reader.close();
 		        }
@@ -86,10 +87,15 @@ public class Wrapper{
 		        if(conn != null){
 		        	conn.disconnect();
 		        }
-
+		        
+		        if(e instanceof UnknownHostException){
+		        	System.in.read();
+		        }
+		        
+		        // if any network exception => retry at most 5 times
 	        	if(it < 5){
 	        		Thread.sleep(500);
-	        		json_result = getApiResult(url, it++);
+	        		json_result = getApiResult(url, it+1);
 	        		System.out.println(json_result);
 	        	}
 	        } catch (Exception e){
@@ -106,31 +112,32 @@ public class Wrapper{
 	}
 	
 	//clear the existing output files else create a new empty file
-		public static void initializeFile(String file){
-			try{
-				File f1 = new File(file);
-				if(!f1.exists()){
-					f1.createNewFile();
-				}else{
-					PrintWriter writer = new PrintWriter(f1);
-					writer.print("");
-					writer.close();
-				}
-			}catch (Exception e){
-				e.printStackTrace();
+	public static void initializeFile(String file){
+		try{
+			File f1 = new File(file);
+			if(!f1.exists()){
+				f1.createNewFile();
+			}else{
+				PrintWriter writer = new PrintWriter(f1);
+				writer.print("");
+				writer.close();
 			}
+		}catch (Exception e){
+			e.printStackTrace();
 		}
-		
-		// obtain the name of other file - one is used for reading other is used for writing
-		public static String comp(String cur_file){
-			String out = "";
-			if(cur_file.equals("addr_ll_details") || cur_file.equals("poi2acc") || cur_file.equals("ll_acc_details")){
-				out = cur_file + "_2";
-			}
-			else{
-				out = cur_file.substring(0, cur_file.length()-2);
-			}
-			return out;
+	}
+	
+	// obtain the name of other file - one is used for reading other is used for writing
+	public static String comp(String cur_file){
+		String out = "";
+		if(cur_file.equals("addr_ll_details") || cur_file.equals("poi2acc") || cur_file.equals("ll_acc_details")){
+			out = cur_file + "_2";
 		}
+		else{
+			out = cur_file.substring(0, cur_file.length()-2);
+		}
+		return out;
+	}
+	 
 		
 }
