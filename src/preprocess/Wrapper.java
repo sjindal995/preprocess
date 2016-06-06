@@ -10,6 +10,7 @@ public class Wrapper{
 
 	// input files
 	public static String addr_in_file = "000000_0_addr";
+//	public static String addr_in_file = "sample.txt";
 	public static String ll_in_file = "000000_0_ll";
 	
 	public static int total_addr = 0;
@@ -30,6 +31,8 @@ public class Wrapper{
 	
 	public static String filtered_file = "filtered_file";
 	
+	public static String state_out_file = "filtered_states";
+	
 	public static JSONObject getApiResult(String url, int it){
 		try{
 			// convert given string to url datatype
@@ -42,8 +45,8 @@ public class Wrapper{
 			conn.setRequestMethod("GET");
 			
 			// set connection and read timeouts
-			conn.setConnectTimeout(100000);
-			conn.setReadTimeout(100000);
+			conn.setConnectTimeout(10000);
+			conn.setReadTimeout(10000);
 			
 		    // jsonobject to be returned
 	        JSONObject json_result = null;
@@ -94,7 +97,7 @@ public class Wrapper{
 		        
 		        // if any network exception => retry at most 5 times
 	        	if(it < 5){
-	        		Thread.sleep(500);
+	        		Thread.sleep(200);
 	        		json_result = getApiResult(url, it+1);
 	        		System.out.println(json_result);
 	        	}

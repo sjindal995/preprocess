@@ -1,0 +1,15 @@
+http://fms-sage-app.vip.nm.flipkart.com:8888/geocode?addr1=Tropa+waddo%2Csodiem%2Csiolim%26addr2%3D%26city%3Dsiolim%26state%3DGoa%26pincode%3D403517
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=28.484744,77.08837&max_dist=0.05
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=28.41238,77.056824&max_dist=0.05
+
+http://fms-sage-app.vip.nm.flipkart.com:8888/geocode?addr1=1%2CEliza+Apartment%2C4th+floor..B.B.D.+Road+65%2CHooghly..near+Hind+Motor+Post+Office%26addr2%3D%26city%3DHooghly%26state%3DWest+Bengal%26pincode%3D712233
+
+http://fms-sage-app.vip.nm.flipkart.com:8888/geocode?addr1=E7-12%2C+BGL14+Cisco+Systems%2C+Cessena+business+Park%2C+Outer+Ring+Road%2C+Kadubeesanhalli%2C+Bangalore%26addr2%3D%26city%3DBangalore%26state%3DKarnataka%26pincode%3D560103
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=12.936293,77.695388&max_dist=0.05
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=12.902133,77.637242&max_dist=0.05
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=12.906622,77.621286&max_dist=0.05
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=13.001159,77.58143&max_dist=0.05
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=12.950912,77.582123&max_dist=0.05
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=12.893393,77.636314&max_dist=0.05
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=12.825287,77.681131&max_dist=0.05
+http://fms-sage-app.vip.nm.flipkart.com:8888/nearby_map_data?point=12.97902,77.623867&max_dist=0.05

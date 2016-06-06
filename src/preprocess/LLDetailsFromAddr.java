@@ -15,20 +15,19 @@ public class LLDetailsFromAddr extends LatLng2Poi{
 			
 			int it=1;
 			
-			// input file format: ["orderId | accId | addr1 | addr2 | city | state | pincode"]
+			// Input file format: ["orderId | accId | addr1 | addr2 | city | state | pincode"]
 			BufferedReader br = new BufferedReader(new FileReader(addr_in_file));
 			
-			//output file
+			// Output file
 			BufferedWriter bw = new BufferedWriter(new FileWriter(addr_ll_file));
 			
 			String orderId, accId, addr1, pincode, state, city, addr2;
 	    	List<String> items;
 	    	
-	    	// store account id and details collected till the previous iteration
+	    	// Store account id and details collected till the previous iteration
 	    	String prev_accId = "";
 	    	JSONArray prev_acc_orders = new JSONArray();
-	    	
-	    	for(String line; ((line = br.readLine()) != null) && (it < 1001); ) {
+	    	for(String line; ((line = br.readLine()) != null) && (it < 2001); ) {
 	    		try{
 	    			
 		    		total_addr++;
@@ -80,7 +79,7 @@ public class LLDetailsFromAddr extends LatLng2Poi{
 					
 					// call flip api for geocoding
 					JSONObject geocode_result_obj = getApiResult(url,0);
-					Thread.sleep(500);
+					Thread.sleep(200);
 					
 					// object to store current order details
 					JSONObject order = new JSONObject();

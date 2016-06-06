@@ -160,7 +160,7 @@ public class FilterPoIs extends AccDetailsFromLL{
 			Arrays.sort(poi_arr,new Comparator<JSONObject>(){
 				public int compare(JSONObject a, JSONObject b){
 					try{
-						return ((int) Math.signum(a.getDouble("Distance") - b.getDouble("Distance")));
+						return ((int) Math.signum(a.getDouble("DISTANCE") - b.getDouble("DISTANCE")));
 					}catch (Exception e){
 						e.printStackTrace();
 					}
@@ -169,7 +169,7 @@ public class FilterPoIs extends AccDetailsFromLL{
 			});
 			
 			for(int poi_index = 0; poi_index < pois.length(); poi_index++){
-				System.out.println(Double.toString(poi_arr[poi_index].getDouble("Distance")) + " :: " + poi_arr[poi_index].getString("NAME"));
+				System.out.println(Double.toString(poi_arr[poi_index].getDouble("DISTANCE")) + " :: " + poi_arr[poi_index].getString("NAME"));
 			}
 			
 			JSONArray best_pois = new JSONArray();

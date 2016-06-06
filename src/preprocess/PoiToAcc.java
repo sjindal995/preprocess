@@ -16,7 +16,7 @@ public class PoiToAcc extends AccDetailsFromLL{
 	public static void main(String[] args){
 		
 		// store the details for each account in file as well as for each poi in map
-		createPoi2Acc("acc_details");
+		createPoi2Acc(addr_out_file);
 		
 		File d_file = new File(comp(poi_file));
 		d_file.delete();
