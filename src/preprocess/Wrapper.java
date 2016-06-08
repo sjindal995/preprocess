@@ -29,9 +29,12 @@ public class Wrapper{
 	public static String addr_out_file = "addr_details";
 	public static String ping_file = "ping_details";
 	
-	public static String filtered_file = "filtered_file";
+	public static String filtered_addr_file = "filtered_addr_file";
+	public static String filtered_ping_file = "filtered_ping_file";
 	
-	public static String state_out_file = "filtered_states";
+	public static String state_addr_out_file = "filtered_addr_states";
+	
+	public static String state_ping_out_file = "filtered_ping_states";
 	
 	public static JSONObject getApiResult(String url, int it){
 		try{
@@ -45,8 +48,8 @@ public class Wrapper{
 			conn.setRequestMethod("GET");
 			
 			// set connection and read timeouts
-			conn.setConnectTimeout(10000);
-			conn.setReadTimeout(10000);
+			conn.setConnectTimeout(60000);
+			conn.setReadTimeout(60000);
 			
 		    // jsonobject to be returned
 	        JSONObject json_result = null;

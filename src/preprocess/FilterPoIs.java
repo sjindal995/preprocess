@@ -9,18 +9,18 @@ import org.apache.commons.lang.StringUtils;
 public class FilterPoIs extends AccDetailsFromLL{
 	
 	public static void main(String[] args){
-		filterPois();
+		filterAddrPois();
 	}
 	
-	public static void filterPois(){
+	public static void filterAddrPois(){
 		try{
 			
 			// file containing all the pois
 			BufferedReader br_final = new BufferedReader(new FileReader(addr_out_file));
 			br_final.readLine();
 			
-			// output file to store best pois along with other details for each account
-			BufferedWriter bw_filter = new BufferedWriter(new FileWriter(filtered_file));
+			// output file to store best pois for each order along with other details for each account
+			BufferedWriter bw_filter = new BufferedWriter(new FileWriter(filtered_addr_file));
 			
 			int it = 1;
 			
@@ -68,6 +68,8 @@ public class FilterPoIs extends AccDetailsFromLL{
 						}
 					}
 					
+					
+					
 					JSONArray best_pois = new JSONArray();
 					
 					// if total number of pois are greater than 3
@@ -85,6 +87,8 @@ public class FilterPoIs extends AccDetailsFromLL{
 					
 					// add order to the updated orders array
 					updated_orders.put(order);
+					total_pois = null;
+					poi_found = null;
 				}
 				
 				// replace the orders array in account details woth updated orders array
@@ -96,6 +100,60 @@ public class FilterPoIs extends AccDetailsFromLL{
 				it++;
 			}
 			
+			br_final.close();
+			bw_filter.close();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static void filterPingPois(){
+		try{
+			// file containing all the pois
+			BufferedReader br_final = new BufferedReader(new FileReader(ping_file));
+			br_final.readLine();
+			
+			// output file to store best pois for each lat/long along with other details for each account
+			BufferedWriter bw_filter = new BufferedWriter(new FileWriter(filtered_ping_file));
+			
+			int it = 1;
+			
+			for(String line; ((line = br_final.readLine()) != null);){
+				
+				System.out.println(it);
+				
+				// Get current account and its details
+				JSONObject acc = new JSONObject(line);
+				JSONArray acc_details = acc.getJSONArray("acc_details");
+				
+				// Array to store account details along with best pois for each lat/long
+				JSONArray updated_acc_details = new JSONArray();
+
+				for(int details_index = 0; details_index < acc_details.length(); details_index++){
+					
+					// Details corresponding to single lat/long
+					JSONObject detail = acc_details.getJSONObject(details_index);
+					
+					// PoIs for the lat/long
+					JSONArray pois = detail.getJSONArray("pois");
+					
+					// Store top PoIs
+					JSONArray best_pois = new JSONArray();
+					for(int poi_index = 0; poi_index < Math.min(3, pois.length()); poi_index++){
+						best_pois.put(pois.getJSONObject(poi_index));
+					}
+					
+					// Store the updated details
+					detail.put("best_pois", best_pois);
+					updated_acc_details.put(detail);
+				}
+				
+				// Replace the account details with the updated one
+				acc.put("acc_details", updated_acc_details);
+				
+				bw_filter.write(acc.toString());
+			}
+				
 			br_final.close();
 			bw_filter.close();
 		} catch (Exception e){

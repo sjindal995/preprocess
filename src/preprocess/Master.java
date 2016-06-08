@@ -7,6 +7,8 @@ public class Master extends AccDetailsFromLL{
 		
 		accountDetailsFromAddr();
 		
+//		accountDetailsFromPings();
+		
 		System.out.println("total addresses: " + Integer.toString(total_addr) + " , poi addresses: " + Integer.toString(poi_addr));
 	}
 }
