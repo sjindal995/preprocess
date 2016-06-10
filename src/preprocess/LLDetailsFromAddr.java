@@ -79,7 +79,6 @@ public class LLDetailsFromAddr extends LatLng2Poi{
 					
 					// Call flip api for geocoding
 					JSONObject geocode_result_obj = getApiResult(url,0);
-					Thread.sleep(200);
 					
 					// Object to store current order details
 					JSONObject order = new JSONObject();
@@ -102,21 +101,20 @@ public class LLDetailsFromAddr extends LatLng2Poi{
 		    			// Single object from the array of results obtained from geocode
 						JSONObject geocode_result_item = geocode_result_arr.getJSONObject(index);
 						
-						// Array storing the address_component field in the object
-						JSONArray geocode_result_item_addr_comp = geocode_result_item.getJSONArray("address_components");
 						
 						// Store the location only if doctype of the item is address_point or poi_point else ignore
-						if(geocode_result_item_addr_comp.getJSONObject(0).getString("DOCTYPE").equals("Poi_point") || geocode_result_item_addr_comp.getJSONObject(0).getString("DOCTYPE").equals("Address_point")){
+						if(!geocode_result_item.getBoolean("partial_match")){
 							// Get lat/lng details from geometry.location field in the result item
 							JSONObject location = geocode_result_item.getJSONObject("geometry").getJSONObject("location");
 														
 							// Store the address_component, location and pincode fields in a jsonobject
 							JSONObject details = new JSONObject();
-							details.put("addr_component", geocode_result_item_addr_comp);
+							details.put("addr_component", geocode_result_item.getJSONArray("address_components"));
 							details.put("location", location);
 							
 							// Add details object to the array of details for this order
 							details_arr.put(details);
+							break;
 						}
 					}
 						

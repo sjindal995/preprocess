@@ -100,7 +100,6 @@ public class Wrapper{
 		        
 		        // if any network exception => retry at most 5 times
 	        	if(it < 5){
-	        		Thread.sleep(200);
 	        		json_result = getApiResult(url, it+1);
 	        		System.out.println(json_result);
 	        	}

@@ -9,7 +9,8 @@ import org.apache.commons.lang.StringUtils;
 public class FilterPoIs extends AccDetailsFromLL{
 	
 	public static void main(String[] args){
-		filterAddrPois();
+//		filterAddrPois();
+		filterPingPois();
 	}
 	
 	public static void filterAddrPois(){
@@ -45,8 +46,8 @@ public class FilterPoIs extends AccDetailsFromLL{
 					// array to store all the pois corresponding to single order
 					JSONArray total_pois = new JSONArray();
 					
-					// map to prevent duplicate storage of pois
-					Map<String, Boolean> poi_found = new HashMap<String, Boolean>();
+					// map to prevent duplicate storage of pois and store their state+pincodes
+					Map<String, JSONObject> poi_state = new HashMap<String, JSONObject>();
 					
 					for(int details_index = 0; details_index < order_details.length(); details_index++){
 						
@@ -54,14 +55,21 @@ public class FilterPoIs extends AccDetailsFromLL{
 						
 						JSONArray pois = detail_item.getJSONArray("pois");
 						
+						JSONObject state = detail_item.getJSONObject("state");
+						JSONObject pincode = detail_item.getJSONObject("pincode");
+						
+						JSONObject state_pincode = new JSONObject();
+						state_pincode.put("state", state);
+						state_pincode.put("pincode", pincode);
+						
 						for(int poi_index = 0; poi_index < pois.length(); poi_index++){
 							
 							JSONObject poi = pois.getJSONObject(poi_index);
 							
 							// add poi to the array if it has not been seen before and mark found for this as true
-							if(poi_found.get(poi.getString("NAME")) == null){
+							if(poi_state.get(poi.getString("MMI_ID")) == null){
 								
-								poi_found.put(poi.getString("NAME"), true);
+								poi_state.put(poi.getString("MMI_ID"), state_pincode);
 								
 								total_pois.put(poi);
 							}
@@ -71,6 +79,7 @@ public class FilterPoIs extends AccDetailsFromLL{
 					
 					
 					JSONArray best_pois = new JSONArray();
+					JSONArray best_state_pincodes = new JSONArray();
 					
 					// if total number of pois are greater than 3
 					if(total_pois.length() > 3){
@@ -82,13 +91,19 @@ public class FilterPoIs extends AccDetailsFromLL{
 						best_pois = total_pois;
 					}
 					
+					for(int index = 0; index < best_pois.length(); index++){
+						JSONObject state_pincode = poi_state.get(best_pois.getJSONObject(index).getString("MMI_ID"));
+						best_state_pincodes.put(state_pincode);
+					}
+					
 					// add the best pois to the order
 					order.put("best_pois",best_pois);
+					order.put("state_pincodes",best_state_pincodes);
 					
 					// add order to the updated orders array
 					updated_orders.put(order);
 					total_pois = null;
-					poi_found = null;
+					poi_state = null;
 				}
 				
 				// replace the orders array in account details woth updated orders array
@@ -118,7 +133,7 @@ public class FilterPoIs extends AccDetailsFromLL{
 			
 			int it = 1;
 			
-			for(String line; ((line = br_final.readLine()) != null);){
+			for(String line; ((line = br_final.readLine()) != null); it++){
 				
 				System.out.println(it);
 				
@@ -151,7 +166,7 @@ public class FilterPoIs extends AccDetailsFromLL{
 				// Replace the account details with the updated one
 				acc.put("acc_details", updated_acc_details);
 				
-				bw_filter.write(acc.toString());
+				bw_filter.write("\r\n" + acc.toString());
 			}
 				
 			br_final.close();

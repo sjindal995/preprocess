@@ -95,6 +95,8 @@ public class AccDetailsFromLL extends LLDetailsFromAddr{
 			br_addr.close();
 			bw_out.close();
 			
+			File addr_ll = new File(addr_ll_file);
+			addr_ll.delete();
 			
 		} catch (Exception e){
 			e.printStackTrace();
@@ -116,7 +118,7 @@ public class AccDetailsFromLL extends LLDetailsFromAddr{
 			
 			int it = 0;
 			
-			for(String line; ((line = br_in.readLine()) != null) && (it < 10);){
+			for(String line; ((line = br_in.readLine()) != null) && (it < 101);){
 				
 				String accId, lat, lng;
 
@@ -154,9 +156,9 @@ public class AccDetailsFromLL extends LLDetailsFromAddr{
 		    	}
 		    	
 		    	// If invalid lat/long ignore
-		    	if(Double.parseDouble(lat) == 0 && Double.parseDouble(lng) == 0){
-		    		continue;
-		    	}
+//		    	if(Double.parseDouble(lat) == 0 && Double.parseDouble(lng) == 0){
+//		    		continue;
+//		    	}
 		    	
 		    	System.out.println("it: " + Integer.toString(it) + " , lat: " + lat + " , lng: " + lng);
 		    	
@@ -167,6 +169,9 @@ public class AccDetailsFromLL extends LLDetailsFromAddr{
 				JSONObject pincode = poi_result.getJSONObject("pincode");
 				JSONObject state = poi_result.getJSONObject("state");
 				
+				if(poi_points == null && pincode == null && state == null){
+					continue;
+				}
 				
 				// Object to store details of current line
 				JSONObject details = new JSONObject();

@@ -6,7 +6,8 @@ import org.json.*;
 
 public class FilterStates extends FilterPoIs{
 	public static void main(String[] args){
-		filterAddrStates(filtered_addr_file);
+//		filterAddrStates(filtered_addr_file);
+		filterPingStates(filtered_ping_file);
 	}
 	
 	public static void filterAddrStates(String in_file){
@@ -20,10 +21,10 @@ public class FilterStates extends FilterPoIs{
 				Map<String, Integer> state_count = new HashMap<String, Integer>();
 				for(int order_index = 0; order_index < orders.length(); order_index++){
 					JSONObject order = orders.getJSONObject(order_index);
-					JSONArray details_arr = order.getJSONArray("details");
-					for(int details_index = 0; details_index < details_arr.length(); details_index++){
-						JSONObject details = details_arr.getJSONObject(details_index); 
-						String state = details.getJSONObject("state").getString("NAME");
+					JSONArray state_pincodes = order.getJSONArray("state_pincodes");
+					for(int details_index = 0; details_index < state_pincodes.length(); details_index++){
+						JSONObject state_pin = state_pincodes.getJSONObject(details_index); 
+						String state = state_pin.getJSONObject("state").getString("NAME");
 						if(!state_count.containsKey(state)) state_count.put(state, 1);
 						else{
 							int val = state_count.get(state);
@@ -49,10 +50,11 @@ public class FilterStates extends FilterPoIs{
 			BufferedReader br_in = new BufferedReader(new FileReader(in_file));
 			br_in.readLine();
 			BufferedWriter bw_out = new BufferedWriter(new FileWriter(state_ping_out_file));
-			
-			for(String line; ((line = br_in.readLine()) != null);){
+			int it = 1;
+			for(String line; ((line = br_in.readLine()) != null); it++){
+				System.out.println("it: " + Integer.toString(it));
 				JSONObject acc = new JSONObject(line);
-				JSONArray acc_details = new JSONArray();
+				JSONArray acc_details = acc.getJSONArray("acc_details");
 				Map<String, Integer> state_count = new HashMap<String, Integer>();
 				for(int details_index = 0; details_index < acc_details.length(); details_index++){
 					JSONObject details = acc_details.getJSONObject(details_index); 
@@ -63,6 +65,7 @@ public class FilterStates extends FilterPoIs{
 						state_count.put(state,val+1);
 					}
 				}
+				
 				JSONArray best_states = getBestStates(state_count);
 			    state_count = null;
 				acc.put("best_states", best_states);
